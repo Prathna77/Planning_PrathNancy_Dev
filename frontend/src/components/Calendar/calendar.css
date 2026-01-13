@@ -128,13 +128,20 @@
 }
 
 /* ======================================================
-   CELL CONTENT
+   CELL CONTENT (DESKTOP)
    ====================================================== */
+
+.cellHeaderRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
 
 .cellTop {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 6px;
 }
 
 .dayNum {
@@ -142,6 +149,7 @@
     font-size: 14px;
 }
 
+/* (Optionnel) si tu n'utilises plus noteDot, tu peux supprimer ce bloc */
 .noteDot {
     width: 10px;
     height: 10px;
@@ -160,65 +168,62 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-.notePreview {
+/* Note preview avec icône 📝 */
+.notePreview.withIcon {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.noteIcon {
+    font-size: 14px;
+    line-height: 1;
+    flex: 0 0 auto;
+    opacity: 0.85;
+}
+
+.noteText {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.25;
     overflow: hidden;
 
     display: -webkit-box;
-    -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-
-    /* standard (pour compatibilité future) */
-    line-clamp: 3;
-}
-
-.notePreview.empty {
-    min-height: 18px;
+    -webkit-box-orient: vertical;
 }
 
 /* ======================================================
    TODAY (DESKTOP + MOBILE)
    ====================================================== */
 
-/* =========================
-   TODAY – FLASHY + ZOOM + SHADOW
-   ========================= */
-
-/* =========================
-   TODAY – ACCENT COLOR + ZOOM + ESPACEMENT
-   ========================= */
-
 .today {
     position: relative;
     z-index: 3;
-
-    /* espace pour compenser le zoom */
     margin-top: 6px;
     margin-bottom: 6px;
 
-    /* accent color (autre que blanc) */
     outline: 2px solid rgba(96, 165, 250, 0.85);
-
-    /* zoom subtil */
     transform: scale(1.04);
 
-    /* ombre portée + glow doux */
     box-shadow:
         0 12px 30px rgba(0, 0, 0, 0.38),
         0 0 0 6px rgba(96, 165, 250, 0.18);
 
-    /* overlay léger pour unifier */
-    background:
-        linear-gradient(180deg,
+    /* si tu veux garder l'overlay "today" */
+    background: linear-gradient(180deg,
             rgba(96, 165, 250, 0.22),
             rgba(255, 255, 255, 0.06));
 
-    transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.18s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+@media (max-width: 720px) {
+    .today {
+        transform: scale(1.02);
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
 }
 
 /* ======================================================
@@ -238,13 +243,8 @@
     background: rgba(255, 255, 255, 0.04);
     color: var(--text);
     padding: 12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-
     cursor: pointer;
+
     transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
@@ -252,19 +252,28 @@
     transform: translateY(1px);
 }
 
-/* Week-end = EXACTEMENT comme desktop */
+/* Week-end = neutre */
 .dayRow.weekend {
     background: rgba(0, 0, 0, 0.18);
 }
 
-.dayRowLeft {
+/* Layout mobile: header (date + badge) sur une ligne, comme desktop */
+.dayRowMain {
     display: grid;
-    gap: 8px;
+    gap: 10px;
+}
+
+.dayRowHeaderRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .dayRowDate {
     display: grid;
     gap: 4px;
+    min-width: 0;
 }
 
 .dayRowLabel {
@@ -277,9 +286,10 @@
     color: var(--muted);
 }
 
-/* Badge = même logique que .slotBadge */
 .dayRowBadge {
-    width: fit-content;
+    flex: 0 0 auto;
+    white-space: nowrap;
+
     padding: 6px 10px;
     border-radius: 999px;
     border: 1px solid var(--stroke);
@@ -288,10 +298,10 @@
     color: rgba(255, 255, 255, 0.92);
 }
 
-.dayRowRight {
-    display: grid;
-    place-items: center;
-    min-width: 36px;
+/* Note (📝) alignée à droite en bas */
+.dayRowFooter {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .dayRowNote {
@@ -349,4 +359,46 @@
     .slotBadge {
         font-size: 10px;
     }
+}
+
+/* --- Mobile mois --- */
+.mobileMonthSection {
+    display: grid;
+    gap: 10px;
+}
+
+.mobileMonthTitle {
+    font-weight: 950;
+    font-size: 20px;
+    letter-spacing: .2px;
+    color: rgba(255, 255, 255, 0.92);
+    padding: 10px 6px 2px;
+    text-transform: capitalize;
+}
+
+.mobileMonthDays {
+    display: grid;
+    gap: 10px;
+}
+
+/* "mer 14" compact */
+.dayRowDateCompact {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+}
+
+.dayRowDow {
+    font-weight: 800;
+    font-size: 12px;
+    color: #eef0f6b3;
+    text-transform: lowercase;
+}
+
+.dayRowDayNum {
+    font-weight: 950;
+    /* chiffre en gras */
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.95);
 }

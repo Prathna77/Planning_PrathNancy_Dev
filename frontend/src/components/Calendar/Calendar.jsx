@@ -126,7 +126,6 @@ function MonthSection({ year, monthIndex, todayISO, notesByDate, weekAColor, wee
                     const isWeekA = weekNo % 2 === 0;
                     const weekColor = isWeekA ? weekAColor : weekBColor;
 
-                    const hasNote = !!notesByDate?.[iso];
                     const isToday = iso === todayISO;
 
                     return (
@@ -145,22 +144,29 @@ function MonthSection({ year, monthIndex, todayISO, notesByDate, weekAColor, wee
                                     }
                             }
                         >
-                            <div className="cellTop">
-                                <div className="dayNum">{dateObj.getDate()}</div>
-                                {hasNote && <div className="noteDot" aria-label="note" />}
+                            <div className="cellHeaderRow">
+                                <div className="cellTop">
+                                    <div className="dayNum">{dateObj.getDate()}</div>
+                                </div>
+
+                                {!weekend && inMonth && (
+                                    <div
+                                        className="slotBadge"
+                                        style={{
+                                            background: hexToRgba(weekColor, 0.25),
+                                            borderColor: hexToRgba(weekColor, 0.45)
+                                        }}
+                                    >
+                                        {weekLabelFromParity(isWeekA)}
+                                    </div>
+                                )}
                             </div>
 
-                            {!weekend && inMonth && (
-                                <div
-                                    className="slotBadge"
-                                    style={{ background: hexToRgba(weekColor, 0.25), borderColor: hexToRgba(weekColor, 0.45) }}
-                                >
-                                    {weekLabelFromParity(isWeekA)}
-                                </div>
-                            )}
-
                             {inMonth && notesByDate?.[iso] ? (
-                                <div className="notePreview">{notesByDate[iso]}</div>
+                                <div className="notePreview withIcon">
+                                    <span className="noteIcon" aria-hidden>📝</span>
+                                    <span className="noteText">{notesByDate[iso]}</span>
+                                </div>
                             ) : (
                                 <div className="notePreview empty" />
                             )}
@@ -173,75 +179,100 @@ function MonthSection({ year, monthIndex, todayISO, notesByDate, weekAColor, wee
 }
 
 function MobileDayList({ year, todayISO, notesByDate, weekAColor, weekBColor, onDayClick, dayRef }) {
-    const days = useMemo(() => {
+    const sections = useMemo(() => {
         const start = new Date(year, 0, 1);
         const end = new Date(year, 11, 31);
-        const arr = [];
+
+        const byMonth = [];
+        let currentMonth = -1;
+        let bucket = null;
+
         const cur = new Date(start);
         cur.setHours(0, 0, 0, 0);
 
         while (cur <= end) {
-            arr.push(new Date(cur));
+            const m = cur.getMonth();
+            if (m !== currentMonth) {
+                currentMonth = m;
+                bucket = { monthIndex: m, days: [] };
+                byMonth.push(bucket);
+            }
+            bucket.days.push(new Date(cur));
             cur.setDate(cur.getDate() + 1);
         }
-        return arr;
+
+        return byMonth;
     }, [year]);
+
+    const weekdayShort = (d) => {
+        // ex: "mer." -> "mer"
+        const w = d.toLocaleDateString("fr-FR", { weekday: "short" });
+        return w.replace(".", "").toLowerCase();
+    };
 
     return (
         <div className="mobileList">
-            {days.map((d) => {
-                const iso = toISODateString(d);
-                const weekend = isWeekend(d);
-                const weekNo = getISOWeek(d);
-                const isWeekA = weekNo % 2 === 0;
-                const weekColor = isWeekA ? weekAColor : weekBColor;
+            {sections.map((section) => (
+                <div key={`${year}-${section.monthIndex}`} className="mobileMonthSection">
+                    <div className="mobileMonthTitle">{monthNameFR(section.monthIndex)}</div>
 
-                const hasNote = !!notesByDate?.[iso];
-                const isToday = iso === todayISO;
+                    <div className="mobileMonthDays">
+                        {section.days.map((d) => {
+                            const iso = toISODateString(d);
+                            const weekend = isWeekend(d);
 
-                const label = d.toLocaleDateString("fr-FR", {
-                    weekday: "long",
-                    day: "2-digit",
-                    month: "long"
-                });
+                            const weekNo = getISOWeek(d);
+                            const isWeekA = weekNo % 2 === 0;
+                            const weekColor = isWeekA ? weekAColor : weekBColor;
 
-                return (
-                    <button
-                        key={iso}
-                        ref={(el) => dayRef(iso, el)}
-                        className={`dayRow ${weekend ? "weekend" : ""} ${isToday ? "today" : ""}`}
-                        onClick={() => onDayClick?.(iso)}
-                        style={
-                            weekend
-                                ? undefined
-                                : {
-                                    borderColor: "rgba(255,255,255,0.12)",
-                                    background: `linear-gradient(180deg, ${hexToRgba(weekColor, 0.12)}, rgba(255,255,255,0.04))`
-                                }
-                        }
-                    >
-                        <div className="dayRowLeft">
-                            <div className="dayRowDate">
-                                <span className="dayRowLabel" style={{ textTransform: "capitalize" }}>{label}</span>
-                                <span className="dayRowISO">{iso}</span>
-                            </div>
+                            const hasNote = !!notesByDate?.[iso];
+                            const isToday = iso === todayISO;
 
-                            {!weekend && (
-                                <div
-                                    className="dayRowBadge"
-                                    style={{ background: hexToRgba(weekColor, 0.22), borderColor: hexToRgba(weekColor, 0.45) }}
+                            return (
+                                <button
+                                    key={iso}
+                                    ref={(el) => dayRef(iso, el)}
+                                    className={`dayRow ${weekend ? "weekend" : ""} ${isToday ? "today" : ""}`}
+                                    onClick={() => onDayClick?.(iso)}
+                                    style={
+                                        weekend
+                                            ? undefined
+                                            : {
+                                                borderColor: "rgba(255,255,255,0.12)",
+                                                background: `linear-gradient(180deg, ${hexToRgba(weekColor, 0.12)}, rgba(255,255,255,0.04))`
+                                            }
+                                    }
                                 >
-                                    {weekLabelFromParity(isWeekA)}
-                                </div>
-                            )}
-                        </div>
+                                    <div className="dayRowMain">
+                                        <div className="dayRowHeaderRow">
+                                            <div className="dayRowDateCompact">
+                                                <span className="dayRowDow">{weekdayShort(d)}</span>
+                                                <span className="dayRowDayNum">{String(d.getDate()).padStart(2, "0")}</span>
+                                            </div>
 
-                        <div className="dayRowRight">
-                            {hasNote ? <span className="dayRowNote">📝</span> : <span className="dayRowNote muted">—</span>}
-                        </div>
-                    </button>
-                );
-            })}
+                                            {!weekend && (
+                                                <div
+                                                    className="dayRowBadge"
+                                                    style={{
+                                                        background: hexToRgba(weekColor, 0.22),
+                                                        borderColor: hexToRgba(weekColor, 0.45)
+                                                    }}
+                                                >
+                                                    {weekLabelFromParity(isWeekA)}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="dayRowFooter">
+                                            {hasNote ? <span className="dayRowNote">📝</span> : <span className="dayRowNote muted">—</span>}
+                                        </div>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }

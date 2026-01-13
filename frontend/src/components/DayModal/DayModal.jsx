@@ -25,7 +25,7 @@ export default function DayModal({ isOpen, dateISO, note, onClose, onSave, onDel
             <div className="modal" role="dialog" aria-modal="true">
                 <div className="modalHead">
                     <div>
-                        <div className="modalTitle">Note</div>
+                        <div className="modalTitle">📝 Note</div>
                         <div className="modalSub">{title}</div>
                     </div>
                     <button className="btn" onClick={onClose}>Fermer</button>
@@ -39,8 +39,25 @@ export default function DayModal({ isOpen, dateISO, note, onClose, onSave, onDel
                         onChange={(e) => setValue(e.target.value)}
                     />
                     <div className="modalActions">
-                        <button className="btn btnPrimary" onClick={() => onSave?.(value)}>Enregistrer</button>
-                        <button className="btn btnDanger" onClick={() => onDelete?.()}>Supprimer</button>
+                        <button
+                            className="btn btnPrimary"
+                            onClick={async () => {
+                                await onSave?.(value);
+                                onClose?.();
+                            }}
+                        >
+                            Enregistrer
+                        </button>
+
+                        <button
+                            className="btn btnDanger"
+                            onClick={async () => {
+                                await onDelete?.();
+                                onClose?.();
+                            }}
+                        >
+                            Supprimer
+                        </button>
                     </div>
                     <div className="modalHint">Si tu laisses vide et tu enregistres, la note sera supprimée.</div>
                 </div>
