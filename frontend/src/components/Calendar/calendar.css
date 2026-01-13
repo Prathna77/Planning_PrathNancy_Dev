@@ -1,0 +1,352 @@
+/* ======================================================
+   CALENDAR – BASE
+   ====================================================== */
+
+.calendarWrap {
+    display: grid;
+    gap: 16px;
+}
+
+/* ======================================================
+   MONTH (DESKTOP)
+   ====================================================== */
+
+.month {
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.monthHeader {
+    padding: 12px 12px 10px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid var(--stroke);
+    flex-wrap: wrap;
+}
+
+.monthTitle {
+    font-weight: 950;
+    font-size: 18px;
+    letter-spacing: 0.2px;
+}
+
+.monthLegend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+}
+
+.legendDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.legendText {
+    opacity: 0.9;
+}
+
+/* ======================================================
+   DAYS OF WEEK HEADER
+   ====================================================== */
+
+.dow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 10px 12px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+    border-bottom: 1px solid var(--stroke);
+}
+
+.dow div {
+    text-align: center;
+    font-weight: 800;
+}
+
+/* ======================================================
+   GRID (DESKTOP)
+   ====================================================== */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding: 12px;
+}
+
+/* ======================================================
+   DAY CELL (DESKTOP)
+   ====================================================== */
+
+.cell {
+    border: 1px solid var(--stroke);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    padding: 10px;
+    min-height: 108px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.cell:hover {
+    transform: translateY(-1px);
+}
+
+.cell:active {
+    transform: translateY(0);
+}
+
+.cell.out {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.cell.out:hover {
+    transform: none;
+}
+
+/* Week-end = neutre */
+.cell.weekend {
+    background: rgba(0, 0, 0, 0.18);
+}
+
+/* ======================================================
+   CELL CONTENT
+   ====================================================== */
+
+.cellTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dayNum {
+    font-weight: 950;
+    font-size: 14px;
+}
+
+.noteDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.10);
+}
+
+.slotBadge {
+    width: fit-content;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    font-size: 11px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.notePreview {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.25;
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+
+    /* standard (pour compatibilité future) */
+    line-clamp: 3;
+}
+
+.notePreview.empty {
+    min-height: 18px;
+}
+
+/* ======================================================
+   TODAY (DESKTOP + MOBILE)
+   ====================================================== */
+
+/* =========================
+   TODAY – FLASHY + ZOOM + SHADOW
+   ========================= */
+
+/* =========================
+   TODAY – ACCENT COLOR + ZOOM + ESPACEMENT
+   ========================= */
+
+.today {
+    position: relative;
+    z-index: 3;
+
+    /* espace pour compenser le zoom */
+    margin-top: 6px;
+    margin-bottom: 6px;
+
+    /* accent color (autre que blanc) */
+    outline: 2px solid rgba(96, 165, 250, 0.85);
+
+    /* zoom subtil */
+    transform: scale(1.04);
+
+    /* ombre portée + glow doux */
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.38),
+        0 0 0 6px rgba(96, 165, 250, 0.18);
+
+    /* overlay léger pour unifier */
+    background:
+        linear-gradient(180deg,
+            rgba(96, 165, 250, 0.22),
+            rgba(255, 255, 255, 0.06));
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+/* ======================================================
+   MOBILE – LIST VIEW (VERTICAL)
+   ====================================================== */
+
+.mobileList {
+    display: grid;
+    gap: 10px;
+    padding: 4px 2px;
+}
+
+.dayRow {
+    width: 100%;
+    border: 1px solid var(--stroke);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    padding: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.dayRow:active {
+    transform: translateY(1px);
+}
+
+/* Week-end = EXACTEMENT comme desktop */
+.dayRow.weekend {
+    background: rgba(0, 0, 0, 0.18);
+}
+
+.dayRowLeft {
+    display: grid;
+    gap: 8px;
+}
+
+.dayRowDate {
+    display: grid;
+    gap: 4px;
+}
+
+.dayRowLabel {
+    font-weight: 950;
+    font-size: 14px;
+}
+
+.dayRowISO {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* Badge = même logique que .slotBadge */
+.dayRowBadge {
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    font-size: 11px;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.dayRowRight {
+    display: grid;
+    place-items: center;
+    min-width: 36px;
+}
+
+.dayRowNote {
+    font-size: 16px;
+}
+
+.dayRowNote.muted {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* ======================================================
+   RESPONSIVE TWEAKS (DESKTOP GRID ONLY)
+   ====================================================== */
+
+@media (max-width: 1024px) {
+    .grid {
+        gap: 8px;
+    }
+
+    .cell {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 720px) {
+    .grid {
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .cell {
+        min-height: 92px;
+        padding: 8px;
+    }
+
+    .monthTitle {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    .dow {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+
+    .grid {
+        gap: 6px;
+    }
+
+    .cell {
+        min-height: 84px;
+    }
+
+    .slotBadge {
+        font-size: 10px;
+    }
+}

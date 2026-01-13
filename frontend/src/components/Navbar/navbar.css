@@ -1,0 +1,127 @@
+.navWrap {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid var(--stroke);
+}
+
+.navInner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* IMPORTANT: ne pas bloquer la place sur mobile */
+    min-width: 0;
+}
+
+.logoDot {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.12);
+    flex: 0 0 auto;
+}
+
+.brandTitle {
+    font-weight: 900;
+    letter-spacing: .2px;
+    white-space: nowrap;
+}
+
+.brandSub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* Right side */
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+/* Year control */
+.yearControl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.yearValue {
+    min-width: 70px;
+    text-align: center;
+    font-weight: 800;
+}
+
+/* Burger */
+.burgerBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.10);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    padding: 10px;
+
+    /* IMPORTANT: empêche le bouton de rétrécir/disparaître */
+    flex: 0 0 auto;
+}
+
+.burgerBtn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 999px;
+}
+
+/* =========================
+   MOBILE ADAPTATIONS
+   ========================= */
+@media (max-width: 520px) {
+    .navInner {
+        padding: 10px 12px;
+    }
+
+    /* on gagne de la place */
+    .brandSub {
+        display: none;
+    }
+
+    /* yearControl plus compact */
+    .yearControl {
+        padding: 6px 8px;
+        gap: 8px;
+    }
+
+    .yearValue {
+        min-width: 54px;
+    }
+
+    /* boutons année plus petits */
+    .yearControl .btn {
+        padding: 8px 10px;
+    }
+}

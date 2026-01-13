@@ -1,0 +1,146 @@
+:root {
+    --text: rgba(255, 255, 255, 0.92);
+    --muted: rgba(255, 255, 255, 0.7);
+    --card: rgba(255, 255, 255, 0.08);
+    --card2: rgba(255, 255, 255, 0.06);
+    --stroke: rgba(255, 255, 255, 0.12);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    --radius: 18px;
+    --radius2: 14px;
+    --maxw: 1400px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text);
+}
+
+a {
+    color: inherit;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+.container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 18px 13px;
+}
+
+.app {
+    min-height: 100vh;
+    background: var(--app-bg, linear-gradient(135deg, #0f172a, #111827));
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.card {
+    position: relative;
+
+    /* fond plus dense */
+    background:
+        linear-gradient(180deg,
+            rgba(0, 0, 0, 0.60),
+            rgba(0, 0, 0, 0.40));
+
+    /* bordure plus lisible */
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    border-radius: var(--radius);
+
+    /* glass plus marqué */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    /* ombre plus présente */
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.hr {
+    height: 1px;
+    background: var(--stroke);
+    margin: 12px 0;
+}
+
+.btn {
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.10);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: transform .08s ease, background .15s ease;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btnPrimary {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.btnDanger {
+    background: rgba(239, 68, 68, 0.20);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--stroke);
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text);
+    outline: none;
+}
+
+.input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.todayFab {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 120;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 12px 14px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+.todayFab:active {
+    transform: translateY(1px);
+}
+
+@media (min-width: 900px) {
+    .todayFab {
+        right: 22px;
+        bottom: 22px;
+    }
+}

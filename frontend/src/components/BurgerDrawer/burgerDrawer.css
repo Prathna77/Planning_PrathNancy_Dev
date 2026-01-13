@@ -1,0 +1,52 @@
+.drawerOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.0);
+    pointer-events: none;
+    transition: background .2s ease;
+    z-index: 80;
+}
+
+.drawerOverlay.open {
+    background: rgba(0, 0, 0, 0.45);
+    pointer-events: auto;
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(420px, 92vw);
+    transform: translateX(110%);
+    transition: transform .25s ease;
+    z-index: 90;
+    background: rgba(15, 23, 42, 0.92);
+    border-left: 1px solid var(--stroke);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer.open {
+    transform: translateX(0);
+}
+
+.drawerHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px;
+    border-bottom: 1px solid var(--stroke);
+}
+
+.drawerTitle {
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.drawerBody {
+    padding: 14px;
+    overflow: auto;
+}
