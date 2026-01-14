@@ -9,7 +9,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: true }));
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://prathna77.github.io",
+];
+
+app.use(cors({
+    origin: (origin, cb) => {
+        if (!origin) return cb(null, true); // Postman/curl
+        if (allowedOrigins.includes(origin)) return cb(null, true);
+        return cb(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/health", (req, res) => res.json({ ok: true }));
