@@ -155,14 +155,14 @@ export default function App() {
 
       <div className="container">
         <div style={{ display: "grid", gap: 16, gridTemplateColumns: "1fr" }}>
-          <div className="card" style={{ padding: 14 }}>
+          {/* <div className="card" style={{ padding: 14 }}>
             <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
               <div style={{ fontWeight: 800, fontSize: 18 }}>Calendrier {year}</div>
               <div style={{ color: "var(--muted)" }}>
                 Clique une date pour ajouter/modifier une note
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="card" style={{ padding: 14 }}>
             <Calendar

@@ -21,7 +21,12 @@
     transform: translateX(110%);
     transition: transform .25s ease;
     z-index: 90;
-    background: rgba(15, 23, 42, 0.92);
+background: linear-gradient(
+  270deg,
+  rgba(15, 23, 42, 0.95),
+  rgba(2, 6, 23, 0.9)
+);
+
     border-left: 1px solid var(--stroke);
     backdrop-filter: blur(10px);
     display: flex;
