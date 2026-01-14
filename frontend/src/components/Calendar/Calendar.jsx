@@ -149,19 +149,25 @@ function MonthSection({ year, monthIndex, todayISO, notesByDate, weekAColor, wee
                                     <div className="dayNum">{dateObj.getDate()}</div>
                                 </div>
 
-                                {!weekend && inMonth && (
-                                    <div
-                                        className="slotBadge"
-                                        style={{
-                                            background: hexToRgba(weekColor, 0.25),
-                                            borderColor: hexToRgba(weekColor, 0.45)
-                                        }}
-                                    >
-                                        {weekLabelFromParity(isWeekA)}
+                                {/* Zone top-right */}
+                                {weekend && getISOWeek(dateObj) % 2 === 0 ? (
+                                    <div className="childBadge">
+                                        Kaylan 🧒
                                     </div>
+                                ) : (
+                                    !weekend && inMonth && (
+                                        <div
+                                            className="slotBadge"
+                                            style={{
+                                                background: hexToRgba(weekColor, 0.25),
+                                                borderColor: hexToRgba(weekColor, 0.45)
+                                            }}
+                                        >
+                                            {weekLabelFromParity(isWeekA)}
+                                        </div>
+                                    )
                                 )}
                             </div>
-
                             {inMonth && notesByDate?.[iso] ? (
                                 <div className="notePreview withIcon">
                                     <span className="noteIcon" aria-hidden>📝</span>
@@ -250,22 +256,31 @@ function MobileDayList({ year, todayISO, notesByDate, weekAColor, weekBColor, on
                                                 <span className="dayRowDayNum">{String(d.getDate()).padStart(2, "0")}</span>
                                             </div>
 
-                                            {!weekend && (
-                                                <div
-                                                    className="dayRowBadge"
-                                                    style={{
-                                                        background: hexToRgba(weekColor, 0.22),
-                                                        borderColor: hexToRgba(weekColor, 0.45)
-                                                    }}
-                                                >
-                                                    {weekLabelFromParity(isWeekA)}
-                                                </div>
+                                            {weekend && getISOWeek(d) % 2 === 0 ? (
+                                                <div className="childBadgeMobile">Kaylan 🧒</div>
+                                            ) : (
+                                                !weekend && (
+                                                    <div
+                                                        className="dayRowBadge"
+                                                        style={{
+                                                            background: hexToRgba(weekColor, 0.22),
+                                                            borderColor: hexToRgba(weekColor, 0.45)
+                                                        }}
+                                                    >
+                                                        {weekLabelFromParity(isWeekA)}
+                                                    </div>
+                                                )
                                             )}
                                         </div>
 
-                                        <div className="dayRowFooter">
-                                            {hasNote ? <span className="dayRowNote">📝</span> : <span className="dayRowNote muted">—</span>}
-                                        </div>
+                                        {hasNote ? (
+                                            <div className="dayRowNotePreview">
+                                                <span className="noteIcon" aria-hidden>📝</span>
+                                                <span className="dayRowNoteText">{notesByDate[iso]}</span>
+                                            </div>
+                                        ) : (
+                                            <div className="dayRowNotePreview empty">Aucune note</div>
+                                        )}
                                     </div>
                                 </button>
                             );

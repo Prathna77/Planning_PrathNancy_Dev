@@ -23,6 +23,7 @@ body {
     margin: 0;
     font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     color: var(--text);
+    background: #111;
 }
 
 a {
@@ -43,6 +44,7 @@ textarea {
 
 .app {
     min-height: 100vh;
+    min-height: 100dvh;
     background: var(--app-bg, linear-gradient(135deg, #0f172a, #111827));
     background-size: cover;
     background-position: center;

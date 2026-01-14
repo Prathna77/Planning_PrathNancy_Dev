@@ -55,6 +55,10 @@
     transform: translateY(1px);
 }
 
+.input {
+    font-size: 15px;
+}
+
 /* Responsive: boutons plus compacts sur petits écrans */
 @media (max-width: 420px) {
     .monthBtn {
