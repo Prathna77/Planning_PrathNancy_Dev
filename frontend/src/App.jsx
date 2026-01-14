@@ -179,6 +179,7 @@ export default function App() {
       </div>
 
       <DayModal
+        key={selectedDate || "closed"}   // ✅ force remount quand la date change
         isOpen={!!selectedDate}
         dateISO={selectedDate}
         note={selectedNote}
@@ -190,6 +191,7 @@ export default function App() {
       <BurgerDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <div style={{ display: "grid", gap: 14 }}>
           <DateFilter
+            year={year}
             onGo={(iso) => {
               scrollToDate(iso);
               setDrawerOpen(false);

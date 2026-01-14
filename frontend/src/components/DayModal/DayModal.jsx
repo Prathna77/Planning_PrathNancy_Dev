@@ -1,20 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./dayModal.css";
 
 function formatFR(iso) {
     if (!iso) return "";
     const [y, m, d] = iso.split("-").map(Number);
     const date = new Date(y, m - 1, d);
-    return date.toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    return date.toLocaleDateString("fr-FR", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 }
 
 export default function DayModal({ isOpen, dateISO, note, onClose, onSave, onDelete }) {
-    const [value, setValue] = useState(note || "");
-
-    useEffect(() => {
-        setValue(note || "");
-    }, [note, dateISO]);
-
+    const [value, setValue] = useState(note ?? "");
     const title = useMemo(() => formatFR(dateISO), [dateISO]);
 
     if (!isOpen) return null;
@@ -59,7 +59,10 @@ export default function DayModal({ isOpen, dateISO, note, onClose, onSave, onDel
                             Supprimer
                         </button>
                     </div>
-                    <div className="modalHint">Si tu laisses vide et tu enregistres, la note sera supprimée.</div>
+
+                    <div className="modalHint">
+                        Si tu laisses vide et tu enregistres, la note sera supprimée.
+                    </div>
                 </div>
             </div>
         </>

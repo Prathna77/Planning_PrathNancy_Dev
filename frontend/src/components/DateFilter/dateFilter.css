@@ -21,3 +21,44 @@
     font-size: 12px;
     color: var(--muted);
 }
+
+.disabledBtn {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---- Boutons mois ---- */
+.monthJump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 12px;
+}
+
+.monthBtn {
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.10);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform .08s ease, background .15s ease;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.monthBtn:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.monthBtn:active {
+    transform: translateY(1px);
+}
+
+/* Responsive: boutons plus compacts sur petits écrans */
+@media (max-width: 420px) {
+    .monthBtn {
+        padding: 7px 9px;
+        font-size: 11px;
+    }
+}

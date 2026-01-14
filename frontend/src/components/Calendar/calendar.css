@@ -189,8 +189,12 @@
     overflow: hidden;
 
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+
+    -webkit-line-clamp: 3;
+    /* WebKit (Chrome, Safari, Edge) */
+    line-clamp: 3;
+    /* Standard (spec CSS) */
 }
 
 /* ======================================================

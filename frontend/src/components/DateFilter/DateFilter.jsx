@@ -5,10 +5,9 @@ function digitsOnly(s) {
     return (s || "").replace(/\D/g, "");
 }
 
-// Affichage utilisateur: DD/MM/YYYY (auto slash)
-// Interne: YYYY-MM-DD
+// Affichage: JJ/MM/AAAA (auto /)
 function formatToDisplay(raw) {
-    const d = digitsOnly(raw).slice(0, 8); // DDMMYYYY max
+    const d = digitsOnly(raw).slice(0, 8); // JJMMYYYY max
     const dd = d.slice(0, 2);
     const mm = d.slice(2, 4);
     const yyyy = d.slice(4, 8);
@@ -20,10 +19,11 @@ function formatToDisplay(raw) {
     return out;
 }
 
+// Convertit vers ISO YYYY-MM-DD
 function displayToISO(display) {
     const d = digitsOnly(display);
 
-    // Cas 1: DDMMYYYY (8 chiffres)
+    // JJMMYYYY
     if (d.length === 8) {
         const dd = d.slice(0, 2);
         const mm = d.slice(2, 4);
@@ -31,16 +31,7 @@ function displayToISO(display) {
         return `${yyyy}-${mm}-${dd}`;
     }
 
-    // Cas 2: YYYYMMDD (8 chiffres mais commence par 19/20/21..)
-    // (optionnel) si l'utilisateur tape 20260113 sans slash
-    if (d.length === 8 && (d.startsWith("19") || d.startsWith("20") || d.startsWith("21"))) {
-        const yyyy = d.slice(0, 4);
-        const mm = d.slice(4, 6);
-        const dd = d.slice(6, 8);
-        return `${yyyy}-${mm}-${dd}`;
-    }
-
-    // Cas 3: DDMMYY (6 chiffres) -> 20YY
+    // JJMMYY -> 20YY
     if (d.length === 6) {
         const dd = d.slice(0, 2);
         const mm = d.slice(2, 4);
@@ -48,10 +39,10 @@ function displayToISO(display) {
         return `20${yy}-${mm}-${dd}`;
     }
 
-    // Cas 4: si l’utilisateur colle déjà YYYY-MM-DD
+    // Déjà ISO
     if (/^\d{4}-\d{2}-\d{2}$/.test(display.trim())) return display.trim();
 
-    // Cas 5: si l’utilisateur colle DD/MM/YYYY
+    // Collé en JJ/MM/YYYY
     if (/^\d{2}\/\d{2}\/\d{4}$/.test(display.trim())) {
         const [dd, mm, yyyy] = display.trim().split("/");
         return `${yyyy}-${mm}-${dd}`;
@@ -67,14 +58,29 @@ function isValidISODate(iso) {
     return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d;
 }
 
-export default function DateFilter({ onGo }) {
+const MONTHS = [
+    { label: "Janv.", mm: "01" },
+    { label: "Fév.", mm: "02" },
+    { label: "Mars", mm: "03" },
+    { label: "Avr.", mm: "04" },
+    { label: "Mai", mm: "05" },
+    { label: "Juin", mm: "06" },
+    { label: "Juil.", mm: "07" },
+    { label: "Août", mm: "08" },
+    { label: "Sept.", mm: "09" },
+    { label: "Oct.", mm: "10" },
+    { label: "Nov.", mm: "11" },
+    { label: "Déc.", mm: "12" }
+];
+
+export default function DateFilter({ year, onGo }) {
     const [display, setDisplay] = useState("");
+
     const iso = useMemo(() => displayToISO(display), [display]);
     const ok = useMemo(() => isValidISODate(iso), [iso]);
 
     function onChange(e) {
-        const next = formatToDisplay(e.target.value);
-        setDisplay(next);
+        setDisplay(formatToDisplay(e.target.value));
     }
 
     function submit(e) {
@@ -83,9 +89,30 @@ export default function DateFilter({ onGo }) {
         onGo?.(iso);
     }
 
+    function goMonth(mm) {
+        const y = Number(year) || new Date().getFullYear();
+        // scroll au 1er du mois
+        onGo?.(`${y}-${mm}-01`);
+    }
+
     return (
         <div className="filterCard">
             <div className="filterTitle">Rechercher une date</div>
+
+            {/* Boutons mois */}
+            <div className="monthJump">
+                {MONTHS.map((m) => (
+                    <button
+                        key={m.mm}
+                        type="button"
+                        className="monthBtn"
+                        onClick={() => goMonth(m.mm)}
+                        aria-label={`Aller à ${m.label}`}
+                    >
+                        {m.label}
+                    </button>
+                ))}
+            </div>
 
             <form onSubmit={submit} className="filterForm">
                 <input
