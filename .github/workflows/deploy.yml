@@ -35,6 +35,8 @@ jobs:
 
       - name: Build (Vite)
         run: npm run build
+        env:
+          VITE_API_URL: https://planning-prathnancy-backend.onrender.com
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
