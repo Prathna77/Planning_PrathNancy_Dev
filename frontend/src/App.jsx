@@ -44,7 +44,7 @@ export default function App() {
     }
   }, [settings]);
 
-  // Load all data for a year (NO setState in a called function from the effect body)
+  // Load all data for a year
   useEffect(() => {
     let cancelled = false;
 
@@ -53,7 +53,7 @@ export default function App() {
         const [notes, s, imgs] = await Promise.all([
           api.getNotesByYear(year),
           api.getSettings(),
-          api.listBackgrounds(),
+          api.listBackgrounds()
         ]);
 
         if (cancelled) return;
@@ -97,19 +97,22 @@ export default function App() {
     [selectedDate]
   );
 
-  const deleteNote = useCallback(async () => {
-    if (!selectedDate) return;
+  const deleteNote = useCallback(
+    async () => {
+      if (!selectedDate) return;
 
-    await api.deleteNote(selectedDate);
+      await api.deleteNote(selectedDate);
 
-    setNotesByDate((prev) => {
-      const next = { ...prev };
-      delete next[selectedDate];
-      return next;
-    });
+      setNotesByDate((prev) => {
+        const next = { ...prev };
+        delete next[selectedDate];
+        return next;
+      });
 
-    setSelectedNote("");
-  }, [selectedDate]);
+      setSelectedNote("");
+    },
+    [selectedDate]
+  );
 
   const scrollToDate = useCallback((iso) => {
     if (!calendarRef.current) return;
@@ -121,7 +124,6 @@ export default function App() {
     if (year === currentYear) {
       scrollToDate(todayISO);
     } else {
-      // si tu es sur une autre année, on te remet au début de l'année affichée
       scrollToDate(`${year}-01-01`);
     }
   }, [todayISO, year, scrollToDate]);
@@ -170,7 +172,7 @@ export default function App() {
       </div>
 
       <DayModal
-        key={selectedDate || "closed"}   // ✅ force remount quand la date change
+        key={selectedDate || "closed"}
         isOpen={!!selectedDate}
         dateISO={selectedDate}
         note={selectedNote}
@@ -202,7 +204,7 @@ export default function App() {
                 weekA_color: settings?.weekA_color,
                 weekB_color: settings?.weekB_color,
                 background_type: "image",
-                background_value: url,
+                background_value: url
               })
             }
             onSelectGradient={(gradient) =>
@@ -210,7 +212,7 @@ export default function App() {
                 weekA_color: settings?.weekA_color,
                 weekB_color: settings?.weekB_color,
                 background_type: "gradient",
-                background_value: gradient,
+                background_value: gradient
               })
             }
             apiBaseUrl={api.baseUrl}
