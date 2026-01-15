@@ -38,7 +38,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--muted);
     flex-wrap: wrap;
 }
@@ -183,7 +183,7 @@
 }
 
 .noteText {
-    font-size: 12px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.25;
     overflow: hidden;

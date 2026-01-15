@@ -36,13 +36,14 @@
 }
 
 .brandTitle {
+    font-size: 25px;
     font-weight: 900;
     letter-spacing: .2px;
     white-space: nowrap;
 }
 
 .brandSub {
-    font-size: 12px;
+    font-size: 15px;
     color: var(--muted);
     margin-top: 2px;
 }
