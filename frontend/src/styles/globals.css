@@ -155,9 +155,3 @@ textarea {
         bottom: 22px;
     }
 }
-
-.appLoading {
-    min-height: 100dvh;
-    background: #0b1220;
-    /* fond neutre */
-}

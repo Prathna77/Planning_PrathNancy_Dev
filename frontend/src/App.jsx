@@ -8,6 +8,8 @@ import DayModal from "./components/DayModal/DayModal.jsx";
 import DateFilter from "./components/DateFilter/DateFilter.jsx";
 import SettingsPanel from "./components/SettingsPanel/SettingsPanel.jsx";
 
+const SETTINGS_CACHE_KEY = "planning_settings_cache_v1";
+
 export default function App() {
   // YYYY-MM-DD (stable)
   const todayISO = useMemo(() => {
@@ -25,7 +27,16 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(null); // ISO string
   const [selectedNote, setSelectedNote] = useState("");
 
-  const [settings, setSettings] = useState(null);
+  // ✅ hydrate settings from cache immediately to avoid "default color flash"
+  const [settings, setSettings] = useState(() => {
+    try {
+      const raw = localStorage.getItem(SETTINGS_CACHE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const [backgrounds, setBackgrounds] = useState([]);
 
   const calendarRef = useRef(null);
@@ -44,7 +55,7 @@ export default function App() {
     }
   }, [settings]);
 
-  // Load all data for a year
+  // Load all data for a year + refresh settings from API
   useEffect(() => {
     let cancelled = false;
 
@@ -59,8 +70,15 @@ export default function App() {
         if (cancelled) return;
 
         setNotesByDate(notes || {});
-        setSettings(s);
         setBackgrounds(imgs || []);
+
+        // ✅ update settings + cache (prevents flash on next refresh)
+        setSettings(s);
+        try {
+          localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(s));
+        } catch {
+          // ignore storage errors (private mode, quota, etc.)
+        }
       } catch (err) {
         if (!cancelled) console.error(err);
       }
@@ -97,22 +115,19 @@ export default function App() {
     [selectedDate]
   );
 
-  const deleteNote = useCallback(
-    async () => {
-      if (!selectedDate) return;
+  const deleteNote = useCallback(async () => {
+    if (!selectedDate) return;
 
-      await api.deleteNote(selectedDate);
+    await api.deleteNote(selectedDate);
 
-      setNotesByDate((prev) => {
-        const next = { ...prev };
-        delete next[selectedDate];
-        return next;
-      });
+    setNotesByDate((prev) => {
+      const next = { ...prev };
+      delete next[selectedDate];
+      return next;
+    });
 
-      setSelectedNote("");
-    },
-    [selectedDate]
-  );
+    setSelectedNote("");
+  }, [selectedDate]);
 
   const scrollToDate = useCallback((iso) => {
     if (!calendarRef.current) return;
@@ -131,6 +146,13 @@ export default function App() {
   const onSaveSettings = useCallback(async (payload) => {
     const updated = await api.saveSettings(payload);
     setSettings(updated);
+
+    // ✅ cache the latest settings so next refresh uses them immediately
+    try {
+      localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(updated));
+    } catch {
+      // ignore
+    }
   }, []);
 
   const onUploadBackground = useCallback(async (file) => {
@@ -143,7 +165,13 @@ export default function App() {
 
     const [imgs, s] = await Promise.all([api.listBackgrounds(), api.getSettings()]);
     setBackgrounds(imgs || []);
+
     setSettings(s);
+    try {
+      localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(s));
+    } catch {
+      // ignore
+    }
   }, []);
 
   return (
