@@ -42,6 +42,12 @@
     white-space: nowrap;
 }
 
+@media (max-width: 768px) {
+    .brandTitle {
+        font-size: 18px;
+    }
+}
+
 .brandSub {
     font-size: 15px;
     color: var(--muted);

@@ -26,6 +26,10 @@ body {
     background: #111;
 }
 
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 a {
     color: inherit;
 }
