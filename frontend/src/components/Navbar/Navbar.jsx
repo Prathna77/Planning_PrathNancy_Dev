@@ -19,10 +19,13 @@ export default function Navbar({ year, onYearPrev, onYearNext, onOpenDrawer }) {
                         <button className="btn" onClick={onYearNext} aria-label="Année suivante">▶</button>
                     </div>
 
-                    <button className="burgerBtn" onClick={onOpenDrawer} aria-label="Ouvrir le menu">
+                    {/* <button className="burgerBtn" onClick={onOpenDrawer} aria-label="Ouvrir le menu">
                         <span />
                         <span />
                         <span />
+                    </button> */}
+                    <button className="settingBtn" onClick={onOpenDrawer} aria-label="Ouvrir le menu">
+                        <i class="bi bi-gear-fill"></i>
                     </button>
                 </div>
             </div>

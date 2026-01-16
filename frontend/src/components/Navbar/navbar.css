@@ -104,6 +104,38 @@
     border-radius: 999px;
 }
 
+.settingBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.10);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    padding: 10px;
+
+    /* IMPORTANT: empêche le bouton de rétrécir/disparaître */
+    flex: 0 0 auto;
+}
+
+.settingBtn .bi {
+    font-size: 20px;
+    color: #ffff;
+}
+
+@media (max-width: 768px) {
+    .settingBtn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .settingBtn .bi {
+        font-size: 18px;
+    }
+}
+
 /* =========================
    MOBILE ADAPTATIONS
    ========================= */

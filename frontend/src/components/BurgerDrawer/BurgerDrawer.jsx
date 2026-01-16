@@ -15,7 +15,7 @@ export default function BurgerDrawer({ open, onClose, children }) {
             <div className={`drawerOverlay ${open ? "open" : ""}`} onClick={onClose} />
             <div className={`drawer ${open ? "open" : ""}`} role="dialog" aria-modal="true">
                 <div className="drawerHead">
-                    <div className="drawerTitle">Menu</div>
+                    <div className="drawerTitle">Réglage</div>
                     <button className="btn" onClick={onClose}>Fermer</button>
                 </div>
                 <div className="drawerBody">{children}</div>
