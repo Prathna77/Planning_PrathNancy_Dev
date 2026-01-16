@@ -1,9 +1,12 @@
+/* =========================
+   NAVBAR (base)
+   ========================= */
 .navWrap {
     position: sticky;
     top: 0;
     z-index: 50;
     backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.20);
+    background: rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid var(--stroke);
 }
 
@@ -17,13 +20,15 @@
     gap: 12px;
 }
 
-/* Brand */
+/* =========================
+   BRAND (left)
+   ========================= */
 .brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    /* IMPORTANT: ne pas bloquer la place sur mobile */
     min-width: 0;
+    /* important: laisse respirer sur mobile */
 }
 
 .logoDot {
@@ -35,17 +40,23 @@
     flex: 0 0 auto;
 }
 
+.brandText {
+    min-width: 0;
+}
+
+.brandTop {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
 .brandTitle {
     font-size: 25px;
     font-weight: 900;
-    letter-spacing: .2px;
+    letter-spacing: 0.2px;
     white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-    .brandTitle {
-        font-size: 18px;
-    }
+    min-width: 0;
 }
 
 .brandSub {
@@ -54,7 +65,34 @@
     margin-top: 2px;
 }
 
-/* Right side */
+/* =========================
+   YEAR CONTROL (inside brandTop)
+   ========================= */
+.yearControl {
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.06);
+    flex: 0 0 auto;
+}
+
+/* Valeurs desktop par défaut */
+.brandTop .yearControl {
+    padding: 6px 8px;
+    gap: 8px;
+}
+
+.yearValue {
+    font-size: 20px;
+    min-width: 56px;
+    text-align: center;
+    font-weight: 800;
+}
+
+/* =========================
+   ACTIONS (right)
+   ========================= */
 .navActions {
     display: flex;
     align-items: center;
@@ -62,38 +100,25 @@
     flex: 0 0 auto;
 }
 
-/* Year control */
-.yearControl {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--stroke);
-    background: rgba(255, 255, 255, 0.06);
-}
-
-.yearValue {
-    min-width: 70px;
-    text-align: center;
-    font-weight: 800;
-}
-
-/* Burger */
-.burgerBtn {
+/* Boutons ronds (burger + settings) */
+.burgerBtn,
+.settingBtn {
     width: 44px;
     height: 44px;
     border-radius: 999px;
     border: 1px solid var(--stroke);
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
     display: grid;
     place-items: center;
-    gap: 4px;
     padding: 10px;
-
-    /* IMPORTANT: empêche le bouton de rétrécir/disparaître */
     flex: 0 0 auto;
+    /* évite le shrink */
+}
+
+/* Burger icon */
+.burgerBtn {
+    gap: 4px;
 }
 
 .burgerBtn span {
@@ -104,28 +129,24 @@
     border-radius: 999px;
 }
 
-.settingBtn {
-    width: 44px;
-    height: 44px;
-    border-radius: 999px;
-    border: 1px solid var(--stroke);
-    background: rgba(255, 255, 255, 0.10);
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    gap: 4px;
-    padding: 10px;
-
-    /* IMPORTANT: empêche le bouton de rétrécir/disparaître */
-    flex: 0 0 auto;
-}
-
+/* Settings icon */
 .settingBtn .bi {
     font-size: 20px;
-    color: #ffff;
+    color: #fff;
 }
 
+/* =========================
+   RESPONSIVE
+   ========================= */
 @media (max-width: 768px) {
+    .brandTitle {
+        font-size: 18px;
+    }
+
+    .yearValue {
+        font-size: 16px;
+    }
+
     .settingBtn {
         width: 40px;
         height: 40px;
@@ -136,9 +157,6 @@
     }
 }
 
-/* =========================
-   MOBILE ADAPTATIONS
-   ========================= */
 @media (max-width: 520px) {
     .navInner {
         padding: 10px 12px;
@@ -149,17 +167,22 @@
         display: none;
     }
 
-    /* yearControl plus compact */
-    .yearControl {
-        padding: 6px 8px;
+    /* rapproche titre + année */
+    .brandTop {
         gap: 8px;
     }
 
-    .yearValue {
-        min-width: 54px;
+    /* yearControl encore plus compact */
+    .brandTop .yearControl {
+        padding: 5px 6px;
+        gap: 6px;
     }
 
-    /* boutons année plus petits */
+    .yearValue {
+        min-width: 48px;
+    }
+
+    /* boutons année plus petits (si ta classe .btn existe déjà ailleurs) */
     .yearControl .btn {
         padding: 8px 10px;
     }
