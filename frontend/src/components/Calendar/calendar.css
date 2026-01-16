@@ -445,6 +445,7 @@
 }
 
 .dayRowNoteText {
+    text-align: left;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
