@@ -36,3 +36,4 @@ export default function Navbar({ year, onYearPrev, onYearNext, onOpenDrawer }) {
         </div>
     );
 }
+
